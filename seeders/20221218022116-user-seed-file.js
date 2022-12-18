@@ -8,7 +8,6 @@ module.exports = {
       'SELECT id FROM Companies;',
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     )
-    companies.shift()
 
     for (const company of companies) {
       await queryInterface.bulkInsert('Users',[{
@@ -60,19 +59,6 @@ module.exports = {
         updatedAt: new Date()
       }], {}
        )
-
-      // await queryInterface.bulkInsert('Users', [{
-      //   name: 'admin',
-      //   account: 'admin',
-      //   password: bcrypt.hashSync('titaner', bcrypt.genSaltSync(10)),
-      //   email: 'admin@example.com',
-      //   errTimes: 0,
-      //   lock: false,
-      //   role: 0,
-      //   CompanyId: company.id,
-      //   createdAt: new Date(),
-      //   updatedAt: new Date()
-      // }], {})
     }
   },
 
