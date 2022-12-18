@@ -4,10 +4,12 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const express = require('express')
 const methodOverride = require('method-override')
 const cors = require('cors')
+const passport = require('./config/passport')
 
 const app = express()
 const PORT = process.env.PORT
 
+app.use(passport.initialize())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
