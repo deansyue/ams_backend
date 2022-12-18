@@ -5,6 +5,7 @@ const express = require('express')
 const methodOverride = require('method-override')
 const cors = require('cors')
 const passport = require('./config/passport')
+const router = require('./routes')
 
 const app = express()
 const PORT = process.env.PORT
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('hello world!'))
+app.use('/api', router)
 
 app.listen(PORT, () => console.log(`app listening on port:${PORT}`))
 
