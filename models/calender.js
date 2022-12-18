@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Calender.hasMany(models.Attendance, { foreignKey: date })
+      Calender.hasMany(models.Attendance, { foreignKey: 'date' })
     }
   }
   Calender.init({
