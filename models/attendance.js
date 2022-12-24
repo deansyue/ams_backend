@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     date: {
       primaryKey: true,
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     workTime: DataTypes.DATE,
     offTime: DataTypes.DATE,

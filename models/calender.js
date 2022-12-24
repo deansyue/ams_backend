@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Calender.init({
     date: {
       primaryKey: true,
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     year: DataTypes.INTEGER,
     month: DataTypes.INTEGER,
