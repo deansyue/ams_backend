@@ -6,7 +6,8 @@ const checkController = {
   checkIn: async (req, res, next) => {
     try {
       const attMode = Number(req.params.attMode)
-      let { checkTime } = req.body // timestamp字串
+      let { checkTime }  = req.body // timestamp字串
+      checkTime = checkTime.checkTime
       const userId = helpers.getUser(req).id
       const timeZone = 'Asia/Taipei'
 
