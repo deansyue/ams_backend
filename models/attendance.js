@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     workTime: DataTypes.DATE,
     offTime: DataTypes.DATE,
-    attMode: DataTypes.INTEGER,
     workGps: DataTypes.STRING,
     offGps: DataTypes.STRING,
     attFg: DataTypes.INTEGER
