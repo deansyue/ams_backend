@@ -5,7 +5,6 @@ const helpers = require('../helpers/auth-helper')
 const checkController = {
   checkIn: async (req, res, next) => {
     try {
-      const attMode = Number(req.params.attMode)
       let { checkTime }  = req.body // timestamp字串
       checkTime = checkTime.checkTime
       const userId = helpers.getUser(req).id
@@ -32,7 +31,6 @@ const checkController = {
           UserId: userId,
           date: checkDate,
           workTime: checkTime,
-          attMode,
           attFg: 1
         })
 

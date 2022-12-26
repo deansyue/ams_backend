@@ -10,7 +10,7 @@ const userController = require('../controllers/userController')
 router.route('/signin').post(signController.signIn)
 
 // 打卡路由
-router.route('/checkin/:attMode').all(authenticated, authenticatedUser).post(checkController.checkIn)
+router.route('/checkin').all(authenticated, authenticatedUser).post(checkController.checkIn)
 
 // 修改密碼路由
 router.route('/users/changePassword').all(authenticated, authenticatedUser).post(userController.changePassword)
