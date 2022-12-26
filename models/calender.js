@@ -18,9 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.STRING
     },
-    year: DataTypes.INTEGER,
-    month: DataTypes.INTEGER,
-    day: DataTypes.INTEGER,
+    week: DataTypes.STRING,
+    rem: DataTypes.STRING,
     calFg: DataTypes.INTEGER
   }, {
     sequelize,
