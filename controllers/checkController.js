@@ -1,14 +1,17 @@
 const moment = require('moment')
-const { Attendance } = require('../models')
+const { Attendance, Company, Calender } = require('../models')
 const helpers = require('../helpers/auth-helper')
 
 const checkController = {
   checkIn: async (req, res, next) => {
     try {
-      let { checkTime }  = req.body // timestamp字串
-      checkTime = checkTime.checkTime
-      const userId = helpers.getUser(req).id
-      const timeZone = 'Asia/Taipei'
+      let { checkTime }  = req.body 
+      const gps = checkTime.gps || ''
+      checkTime = checkTime.checkTime // 前端回傳毫秒數
+      const userData = helpers.getUser(req)
+      const userCompany = await Company.findByPk(userData.CompanyId)
+      const userId = userData.id 
+      const timeZone = userCompany.area || 'Asia/Taipei'
 
       // 將前端傳回的字串，轉為moment格式進行計算
       checkTime = moment.tz(checkTime, timeZone)
@@ -24,6 +27,7 @@ const checkController = {
       }
 
       const attData = await Attendance.findOne({ where: { UserId: userId, date: checkDate } })
+      const todayCalFg = await Calender.findByPk(checkDate, { attributes: ['calFg'] })
 
       // 當查詢不到打卡資料時，視為上班>新增一筆資料
       if (!attData) {
@@ -31,7 +35,8 @@ const checkController = {
           UserId: userId,
           date: checkDate,
           workTime: checkTime,
-          attFg: 1
+          workGps: gps,
+          attFg: todayCalFg.dataValues.calFg === 2 ? 2 : 1 // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)，否則為1(缺勤)
         })
 
         return res.json({
@@ -52,10 +57,11 @@ const checkController = {
         compareMinutes = (compareMinutes*60) + Number(checkTime.format('mm'))
         const workMinutes = (Number(workTime.format('H')) * 60) + Number(workTime.format('mm'))
 
-        // 下班時間-上班間 >= 480分，出缺勤fg=1, 否則為0
-        const attFg = (compareMinutes - workMinutes) >= (8 * 60) ? 0 : 1
+        // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)
+        // 打卡日期為工作日(calFg=0)，判斷下班時間-上班間 >= 480分，出缺勤fg=1(缺勤), 否則為0(正常)
+        const attFg = todayCalFg.dataValues.calFg === 2 ? 2 : (compareMinutes - workMinutes) >= (8 * 60) ? 0 : 1
 
-        await attData.update({ offTime: checkTime, attFg })
+        await attData.update({ offTime: checkTime, offGps: gps, attFg })
 
         return res.json({
           status: "success",
