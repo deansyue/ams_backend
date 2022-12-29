@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     name: DataTypes.STRING,
-    address: DataTypes.STRING
+    address: DataTypes.STRING,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE,
+    useGps: DataTypes.BOOLEAN,
+    area: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Company',
