@@ -27,6 +27,10 @@ const qrcodeController = {
       return res.json({
         statsu: 'success',
         data: {
+          user: {
+            id: user.id,
+            account: user.account
+          },
           company: {
             id: user.Company.id,
             latitude: user.Company.latitude,
@@ -43,12 +47,12 @@ const qrcodeController = {
   // qrcode用打卡路由
   qrcodeCheckIn: async (req, res, next) => {
     //取得url夾帶的資料
-    const account = req.query.account
+    const userId = req.query.id
     const date = req.query.date
 
     const gps = ''
 
-    let user = await User.findOne({ where: { account }, include: 'Company' })
+    let user = await User.findByPk(userId, { include: 'Company' })
 
     // 查詢不到該使用者時
     if (!user) {
