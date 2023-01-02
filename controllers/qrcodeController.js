@@ -46,6 +46,7 @@ const qrcodeController = {
 
   // qrcode用打卡路由
   qrcodeCheckIn: async (req, res, next) => {
+    try {
     //取得url夾帶的資料
     const userId = req.query.id
     const date = req.query.date
@@ -56,10 +57,7 @@ const qrcodeController = {
 
     // 查詢不到該使用者時
     if (!user) {
-      return res.json({
-        status: 'error',
-        message: '帳號不存在,請重新確認'
-      })
+      return res.send(`<span>無該使用者,請重新確認</span>`)
     }
 
     user = user.toJSON()
@@ -69,10 +67,7 @@ const qrcodeController = {
     // qrcode只能用於產生當日, 判斷掃描日期與qrcode的日期是否同一天
     const isToday = bcrypt.compareSync(checkTime.format('YYYY/MM/DD'), date)
     if (!isToday) {
-      return res.json({
-        status: 'error',
-        message: '掃描的二維條碼非當日產生,若要使用該功能,請重新產生二維條碼'
-      })
+      return res.send(`<span>掃描的二維條碼非當日產生,若要使用該功能,請重新產生二維條碼</span>`)
     }
 
     // 打卡邏輯
@@ -99,13 +94,7 @@ const qrcodeController = {
         attFg: todayCalFg.dataValues.calFg === 2 ? 2 : 1 // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)，否則為1(缺勤)
       })
 
-      return res.json({
-        status: "success",
-        message: '上班打卡成功',
-        date: {
-          attData: workData
-        }
-      })
+      return res.sned(`<span>上班打卡成功,打卡時間:${checkTime.format('LLLL')}</span>`)
 
       // 有打卡資料時，視為下班>判斷工作時數是否達到8小時，並更新下班時間及出缺勤fg
     } else {
@@ -123,14 +112,11 @@ const qrcodeController = {
 
       await attData.update({ offTime: checkTime, offGps: gps, attFg })
 
-      return res.json({
-        status: "success",
-        message: '下班打卡成功',
-        date: {
-          attData
-        }
-      })
+      return res.send(`<span>下班打卡成功,打卡時間:${checkTime.format('LLLL')}</span>`)
     }
+  } catch(err) {
+    return res.send(`err:${err}`)
+  }
   }
 }
 
