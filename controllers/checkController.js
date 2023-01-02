@@ -5,12 +5,12 @@ const helpers = require('../helpers/auth-helper')
 const checkController = {
   checkIn: async (req, res, next) => {
     try {
-      let { checkTime }  = req.body 
+      let { checkTime } = req.body
       const gps = checkTime.gps || ''
       checkTime = checkTime.checkTime // 前端回傳毫秒數
       const userData = helpers.getUser(req)
       const userCompany = await Company.findByPk(userData.CompanyId)
-      const userId = userData.id 
+      const userId = userData.id
       const timeZone = userCompany.area || 'Asia/Taipei'
 
       // 將前端傳回的字串，轉為moment格式進行計算
@@ -54,7 +54,7 @@ const checkController = {
         //判斷與上班日期相比，若下班打卡日期為隔天，下班打卡時數要加24小時
         // 將上班時間與下班時間 換算成分鐘
         let compareMinutes = workTime.format('YYYYMMDD') === checkTime.format('YYYYMMDD') ? checkHour : checkHour + 24
-        compareMinutes = (compareMinutes*60) + Number(checkTime.format('mm'))
+        compareMinutes = (compareMinutes * 60) + Number(checkTime.format('mm'))
         const workMinutes = (Number(workTime.format('H')) * 60) + Number(workTime.format('mm'))
 
         // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)

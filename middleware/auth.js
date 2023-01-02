@@ -30,7 +30,7 @@ const authenticatedAdmin = (req, res, next) => {
   if (currentUser && currentUser.role === 0) return next()
 
   // 若為否，回傳狀態碼403，且回傳錯誤json資料
-  return res.status(403).json({ status: 'error', message: '帳號不存在' }) 
+  return res.status(403).json({ status: 'error', message: '帳號不存在' })
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 module.exports = {
-  errorHandler (err, req, res, next) {
+  errorHandler(err, req, res, next) {
     if (err instanceof Error) {
       res.status(500).json({
         status: 'error',
