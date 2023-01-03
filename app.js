@@ -8,7 +8,7 @@ const passport = require('./config/passport')
 const router = require('./routes')
 
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 app.use(passport.initialize())
 app.use(cors())
