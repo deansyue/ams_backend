@@ -47,6 +47,10 @@ const checkRecordController = {
             .format('YYYY/MM/DD h:mm a')
         }
 
+        // 上/下班位置為null時處理
+        if (data.Attendances.workGps === null) data.Attendances.workGps = ''
+        if (data.Attendances.offGps === null) data.Attendances.offGps = ''
+
         // 出缺勤格式化
         if (data.Attendances.attFg === 0) {
           data.Attendances.attFg = '正常'
