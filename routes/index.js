@@ -6,6 +6,7 @@ const signController = require('../controllers/signController')
 const checkController = require('../controllers/checkController')
 const userController = require('../controllers/userController')
 const qrcodeController = require('../controllers/qrcodeController')
+const checkRecordController = require('../controllers/checkRecordController')
 
 // 登入路由
 router.route('/signin').post(signController.signIn)
@@ -19,6 +20,9 @@ router.route('/qrcode/checkin').get(qrcodeController.qrcodeCheckIn)
 
 // 修改密碼路由
 router.route('/users/changePassword').all(authenticated, authenticatedUser).post(userController.changePassword)
+
+// 打卡記錄表路由
+router.route('/checkRecord/getCheckRecord').all(authenticated, authenticatedUser).get(checkRecordController.getCheckRecord)
 
 
 
