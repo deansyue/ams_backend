@@ -19,11 +19,11 @@ const checkRecordController = {
       checkData.map(data => {
         // 行事曆工作日fg格式化
         if (data.calFg === 0) {
-          data.calFg = "工作日";
+          data.calFg = '工作日'
         } else if (data.calFg === 2) {
-          data.calFg = "非工作日";
+          data.calFg = '非工作日'
         } else {
-          data.calFg = "其他";
+          data.calFg = '其他'
         }
 
         // 上/下班打卡時間format
@@ -34,7 +34,7 @@ const checkRecordController = {
             data.Attendances.workTime
           )
             .tz(timeZone)
-            .format("YYYY/MM/DD h:mm a");
+            .format('YYYY/MM/DD h:mm a')
         }
 
         if (data.Attendances.offTime === null) {
@@ -44,18 +44,18 @@ const checkRecordController = {
             data.Attendances.offTime
           )
             .tz(timeZone)
-            .format("YYYY/MM/DD h:mm a");
+            .format('YYYY/MM/DD h:mm a')
         }
 
         // 出缺勤格式化
         if (data.Attendances.attFg === 0) {
-          data.Attendances.attFg = "正常";
+          data.Attendances.attFg = '正常'
         } else if (data.Attendances.attFg === 1) {
-          data.Attendances.attFg = "缺勤";
+          data.Attendances.attFg = '缺勤'
         } else if (data.Attendances.attFg === 2) {
-          data.Attendances.attFg = "加班";
+          data.Attendances.attFg = '加班'
         } else {
-          data.Attendances.attFg = data.calFg === '工作日' ? "缺勤" : ''
+          data.Attendances.attFg = data.calFg === '工作日' ? '缺勤' : ''
         }
       })
 
