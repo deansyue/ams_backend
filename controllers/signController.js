@@ -15,11 +15,14 @@ const signController = {
 
       // 判斷密碼 及 使用者身份 是否正確
       const pasIsCorrect = await bcrypt.compare(password, user.password)
-      if (!pasIsCorrect || user.role !== 1) {
-        // 錯誤時，更新errTiems,並判斷錯誤次數5次以上,上鎖帳號
-        const errTimes = user.errTimes += 1
-        const lock = user.errTimes > 5 ? true : false
-        await user.update({ errTimes, lock })
+      if (!pasIsCorrect) {
+        // admin 不做密碼加鎖
+        if (user.role === 1) {
+          // 帳號role = 1(使用者),錯誤時，更新errTiems,並判斷錯誤次數5次以上,上鎖帳號
+          const errTimes = user.errTimes += 1
+          const lock = user.errTimes > 5 ? true : false
+          await user.update({ errTimes, lock })
+        }
         return res.json({ status: 'error', message: '帳號與密碼不存在' })
       }
 
