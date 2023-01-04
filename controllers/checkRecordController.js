@@ -11,7 +11,43 @@ const checkRecordController = {
       endDate = moment(Number(endDate)).tz(timeZone).format('YYYY/MM/DD')
       const userId = helpers.getUser(req).id
 
-      const checkData = await Calender.findAll({ where: { date: { [Op.between]: [startDate, endDate] } }, include: { model: Attendance, where: { UserId: userId } } })
+      let checkData = await Calender.findAll({
+        where: { date: { [Op.between]: [startDate, endDate] } }, include: { model: Attendance, where: { UserId: userId }, required: false }, raw: true, nest: true })
+
+      // 資料數值格式化
+      checkData.map(data => {
+        // 行事曆工作日fg格式化
+        if (data.calFg === 0) {
+          data.calFg = "工作日";
+        } else if (data.calFg === 2) {
+          data.calFg = "非工作日";
+        } else {
+          data.calFg = "其他";
+        }
+
+        // 上/下班打卡時間format
+        data.Attendances.workTime = moment(
+          data.Attendances.workTime
+        )
+          .tz(timeZone)
+          .format("YYYY/MM/DD h:mm a");
+        data.Attendances.offTime = moment(
+          data.Attendances.offTime
+        )
+          .tz(timeZone)
+          .format("YYYY/MM/DD h:mm a");
+
+        // 出缺勤格式化
+        if (data.Attendances.attFg === 0) {
+          data.Attendances.attFg = "正常";
+        } else if (data.Attendances.attFg === 1) {
+          data.Attendances.attFg = "缺勤";
+        } else if (data.Attendances.attFg === 2) {
+          data.Attendances.attFg = "加班";
+        } else {
+          data.Attendances.attFg = "其他";
+        }
+      })
 
       return res.json({
         status: 'success',
