@@ -20,6 +20,8 @@ router.route('/qrcode/checkin').get(qrcodeController.qrcodeCheckIn)
 
 // 修改密碼路由
 router.route('/users/changePassword').all(authenticated, authenticatedUser).post(userController.changePassword)
+// 取得當前使用者資料路由
+router.route('/users/getCurrentUser').all(authenticated).get(userController.getCurrentUser)
 
 // 打卡記錄表路由
 router.route('/checkRecord/getCheckRecord').all(authenticated, authenticatedUser).get(checkRecordController.getCheckRecord)

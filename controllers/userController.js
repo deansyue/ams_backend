@@ -53,6 +53,32 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+
+  getCurrentUser: async (req, res, next) => {
+    try {
+      const userId = helpers.getUser(req).id
+      let user = await User.findByPk(userId, { include: 'Company' })
+
+      if (!user) {
+        return res.json({
+          status: 'error',
+          message: '找不到使用者!'
+        })
+      }
+
+      user = user.toJSON()
+      delete user.password
+
+      return res.json({
+        status: 'success',
+        data: {
+          user
+        }
+      })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
