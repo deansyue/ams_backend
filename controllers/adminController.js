@@ -3,7 +3,7 @@ const { Op } = require('sequelize')
 const helper = require('../helpers/auth-helper')
 
 const adminController = {
-  editCompany: async (req, res, next) => {
+  putCompany: async (req, res, next) => {
     try {
       const { name, useGps, area } = req.body
       // 判斷欄位輸入的正確性

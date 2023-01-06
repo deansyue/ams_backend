@@ -28,7 +28,7 @@ router.route('/users/getCurrentUser').all(authenticated).get(userController.getC
 router.route('/checkRecord/getCheckRecord').all(authenticated, authenticatedUser).get(checkRecordController.getCheckRecord)
 
 // admin路由
-router.route('/admin/editCompany').all(authenticated, authenticatedAdmin).post(adminController.editCompany)
+router.route('/admin/putCompany').all(authenticated, authenticatedAdmin).put(adminController.putCompany)
 router.route('/admin/getLockedUser').all(authenticated, authenticatedAdmin).get(adminController.getLockedUser)
 router.route('/admin/putUserLocked').all(authenticated, authenticatedAdmin).put(adminController.putUserLocked)
 
