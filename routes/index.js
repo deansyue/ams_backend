@@ -20,7 +20,7 @@ router.route('/qrcode/findcompanydata').post(qrcodeController.findCompanyData)
 router.route('/qrcode/checkin').get(qrcodeController.qrcodeCheckIn)
 
 // 修改密碼路由
-router.route('/users/changePassword').all(authenticated, authenticatedUser).post(userController.changePassword)
+router.route('/users/putUserPassword').all(authenticated, authenticatedUser).put(userController.changePassword)
 // 取得當前使用者資料路由
 router.route('/users/getCurrentUser').all(authenticated).get(userController.getCurrentUser)
 
