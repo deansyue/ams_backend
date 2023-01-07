@@ -15,6 +15,13 @@ const qrcodeController = {
         })
       }
 
+      if (userAccount === 'admin') {
+        return res.json({
+          status: 'error',
+          message: '無此帳號,請重新輸入'
+        })
+      }
+
       let user = await User.findOne({ where: { account: userAccount }, include: 'Company' })
       if (!user) {
         return res.json({
