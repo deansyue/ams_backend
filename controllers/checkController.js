@@ -56,10 +56,13 @@ const checkController = {
         let compareMinutes = workTime.format('YYYYMMDD') === checkTime.format('YYYYMMDD') ? checkHour : checkHour + 24
         compareMinutes = (compareMinutes * 60) + Number(checkTime.format('mm'))
         const workMinutes = (Number(workTime.format('H')) * 60) + Number(workTime.format('mm'))
+        // 公司休息時間與公司正常工時
+        const breakTimes = 1 * 60
+        const operatingTimes = 8 * 60
 
         // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)
-        // 打卡日期為工作日(calFg=0)，判斷下班時間-上班間 >= 480分，出缺勤fg=1(缺勤), 否則為0(正常)
-        const attFg = todayCalFg.dataValues.calFg === 2 ? 2 : (compareMinutes - workMinutes) >= (8 * 60) ? 0 : 1
+        // 打卡日期為工作日(calFg=0)，判斷下班時間-上班時間-休息時間 >= 正常工時(分鐘)，出缺勤fg=1(缺勤), 否則為0(正常)
+        const attFg = todayCalFg.dataValues.calFg === 2 ? 2 : (compareMinutes - workMinutes - breakTimes) >= operatingTimes ? 0 : 1
 
         await attData.update({ offTime: checkTime, offGps: gps, attFg })
 
