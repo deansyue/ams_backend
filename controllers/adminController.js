@@ -30,7 +30,7 @@ const adminController = {
         status: 'success',
         message: '公司資料更新成功!'
       })
-    } catch(err) {
+    } catch (err) {
       next(err)
     }
   },
@@ -46,7 +46,7 @@ const adminController = {
           lockedUser
         }
       })
-    } catch(err) {
+    } catch (err) {
       next(err)
     }
   },
@@ -75,10 +75,10 @@ const adminController = {
         status: 'success',
         message: '選擇的員工上鎖狀態已更新!!'
       })
-    } catch(err) {
+    } catch (err) {
       next(err)
     }
-    
+
   }
 }
 
