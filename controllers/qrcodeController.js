@@ -15,18 +15,20 @@ const qrcodeController = {
         })
       }
 
-      if (userAccount === 'admin') {
+      let user = await User.findOne({ where: { account: userAccount }, include: 'Company' })
+      // 無輸入之帳號或帳號為管理者時
+      if (!user || user.role === 0) {
         return res.json({
           status: 'error',
           message: '無此帳號,請重新輸入'
         })
       }
 
-      let user = await User.findOne({ where: { account: userAccount }, include: 'Company' })
-      if (!user) {
+      // 帳號上鎖時
+      if (user.lock) {
         return res.json({
           status: 'error',
-          message: '無此帳號,請重新輸入'
+          message: '該帳號已上鎖,無法使用此功能'
         })
       }
 
