@@ -103,7 +103,7 @@ const qrcodeController = {
           attFg: todayCalFg.dataValues.calFg === 2 ? 2 : 1 // 打卡日期為非工作日(calFg=2)時，attFg = 2(加班)，否則為1(缺勤)
         })
 
-        return res.sned(`<span>上班打卡成功,打卡時間:${checkTime.format('LLLL')}</span>`)
+        return res.send(`<span>上班打卡成功,打卡時間:${checkTime.format('LLLL')}</span>`)
 
         // 有打卡資料時，視為下班>判斷工作時數是否達到8小時，並更新下班時間及出缺勤fg
       } else {
